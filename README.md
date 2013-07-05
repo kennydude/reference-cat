@@ -13,6 +13,12 @@ it's stupidly difficult and nothing really clicked fuffiling my criteria:
 
 It uses GTK right now, but it can be easily expanded.
 
+It looks like this:
+
+![Main screen](screenshots/main.png)
+
+![Edit Reference](screenshots/edit.png)
+
 ## State of things
 
 ### Things that don't work
@@ -24,6 +30,7 @@ It uses GTK right now, but it can be easily expanded.
 
 * Move generic code out of the GTK module
 * Split the GTK module into parts (main, edit, export)
+* Make the generated reference a bit more human
 
 ### Things to do
 
