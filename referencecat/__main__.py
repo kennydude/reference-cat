@@ -2,15 +2,15 @@
 print("ReferenceCat by @kennydude")
 print("Version 0.1")
 
-import importlib
+import importlib, sys
 
 gui_libs = ["gtk", "web"]
 
-'''
-TODO: Implement and test
-if commandLine --gui=x:
-	gui_libs = [ x ] + gui_libs
-'''
+for arg in sys.argv:
+	if arg[:6] == "--gui=":
+		gui = arg[6:]
+		print(">> %s UI has been requested." % gui)
+		gui_libs = [gui]
 
 gui = False
 for lib in gui_libs:

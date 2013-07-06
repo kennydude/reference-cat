@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0">
+
+	<title>ReferenceCat</title>
+
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css' />
+	<style type="text/css">
+		*{
+			font-family: "Roboto Slab", serif;
+			font-weight: 300;
+			margin: 0;
+		}
+		.container{
+			margin: 0 auto;
+			max-width: 800px;
+		}
+		h1, p{
+			padding: 15px 0;
+		}
+		.header{
+			background: #EEE;
+			padding-bottom: 15px;
+		}
+		li{
+			list-style-type: square;
+			margin-bottom: 10px;
+		}
+		ul{
+			padding-top: 30px;
+			padding-bottom: 20px;
+			padding-left: 20px;
+		}
+	</style>
+</head>
+<body>
+	<script type="text/json">
+		{{ raw_data }}
+	</script>
+    <div class="header">
+    	<div class="container">
+	    	<h1>ReferenceCat</h1>
+	    	<p>This is a reference file created by ReferenceCat version {{version}}. ReferenceCat can be downloaded from <a href="https://github.com/kennydude/reference-cat">here</a></p>
+	    	<p>You are viewing this file in a web browser so you can't edit it here. If you open this file inside of ReferenceCat, you can edit it</p>
+	    </div>
+    </div>
+    <div class="container">
+		<ul>
+    	{{# references }}
+    		<li>{{ reference }}</li>
+    	{{/ references }}
+    	</ul>
+    </div>
+</body>
+</html>

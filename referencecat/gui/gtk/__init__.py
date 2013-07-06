@@ -4,10 +4,8 @@
 # If someone wanted to tidy this up, then please do
 
 from gi.repository import Gtk, GObject, Gdk
-from core.reference import *
+import core
 import datetime, json, os.path
-
-VERSION = "0.1"
 
 class GReference(GObject.GObject):
 	def __init__(self, reference):

@@ -10,5 +10,5 @@ setup(
 	url="https://github.com/kennydude/reference-cat",
 	author="Joe Simpson",
 	author_email="headbangerkenny@gmail.com",
-	install_requires=["pystache"]
+	install_requires=["pystache","web.py"]
 )
