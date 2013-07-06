@@ -27,7 +27,7 @@ class MyApplication(object):
 		self.dirty = False # By default, we are not dirty
 
 		self.builder = Gtk.Builder()
-		self.builder.add_from_file("gui/gtk/ui.glade")
+		self.builder.add_from_file("referencecat/gui/gtk/ui.glade")
 		self.setupEditReference()
 
 		self.win = self.builder.get_object("mainWindow")
