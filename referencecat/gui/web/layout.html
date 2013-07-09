@@ -12,6 +12,7 @@
 			font-family: "Roboto Slab", serif;
 			font-weight: 300;
 			margin: 0;
+			box-sizing: border-box;
 		}
 		.container{
 			margin: 0 auto;
@@ -33,25 +34,48 @@
 			padding-bottom: 20px;
 			padding-left: 20px;
 		}
+		.toolbar{
+			padding: 10px 0;
+		}
+		.toolbar a{
+			color: #333;
+			padding: 5px;
+		}
+		.toolbar a:hover{
+			color: #000;
+			background: #EEE;
+			cursor: pointer;
+		}
+		.right{
+			float: right;
+		}
+		.heading{
+			background: #EEE;
+			padding: 5px;
+		}
+		input{
+			width: 100%;
+			outline: none;
+			border: 1px solid #DDD;
+		}
+		.fl, select, label{
+			float: left; width: 50%;
+		}
+		select:after,.fl:after{
+			clear: both;
+		}
+		.editBox{
+			box-shadow: #ccc 0px 0px 10px;
+			padding: 10px;
+		}
+		.fieldC{
+			margin: 5px 0;
+		}
 	</style>
 </head>
 <body>
-	<script type="text/json">
-		{{& raw_data }}
-	</script>
-	<div class="header">
-		<div class="container">
-			<h1>ReferenceCat</h1>
-			<p>This is a reference file created by ReferenceCat version {{version}}. ReferenceCat can be downloaded from <a href="https://github.com/kennydude/reference-cat">here</a></p>
-			<p>You are viewing this file in a web browser so you can't edit it here. If you open this file inside of ReferenceCat, you can edit it</p>
-		</div>
-	</div>
 	<div class="container">
-		<ul>
-		{{# references }}
-			<li>{{& reference }}</li>
-		{{/ references }}
-		</ul>
+		{{& content }}
 	</div>
 </body>
 </html>

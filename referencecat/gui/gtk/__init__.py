@@ -4,8 +4,12 @@
 # If someone wanted to tidy this up, then please do
 
 from gi.repository import Gtk, GObject, Gdk
-import core
+from core.reference import *
+from core.document import *
 import datetime, json, os.path
+
+# TODO: Remove
+VERSION = "0.2"
 
 class GReference(GObject.GObject):
 	def __init__(self, reference):
@@ -23,6 +27,8 @@ class MyApplication(object):
 		print(">> Opening GTK UI")
 		self.editIter = None # By default, we append
 		self.dirty = False # By default, we are not dirty
+		self.filename = None
+		self.full_filename = None
 
 		self.builder = Gtk.Builder()
 		self.builder.add_from_file("referencecat/gui/gtk/ui.glade")
@@ -136,31 +142,35 @@ class MyApplication(object):
 			f = dialog.get_filename()
 			print( ">> Opening: %s" % f )
 			dialog.destroy()
-			self.openFile(f)
-			# New filename
-			self.setFilename(f)
-			# And of course, we are not dirty!
-			self.setDirty(False)
+			if self.openFile(f):
+				# New filename
+				self.setFilename(f)
+				# And of course, we are not dirty!
+				self.setDirty(False)
 		elif response == Gtk.ResponseType.CANCEL:
 			print(">> Open Canceled")
 			dialog.destroy()
 
 	def openFile(self,filename):
 		try:
-			self.wipeView()
 			f = open(filename, 'r')
-			data = json.load(f)
+
+			d = Document()
+			d.input( f.read() )
+
+			#data = json.load(f)
 			f.close()
 
-			if(data['version'] != VERSION):
+			if(d.version != VERSION):
 				self.showInfo("File saved with a different version of ReferenceCat!", "The file was opened with a differnet version. Some things may not work correctly, but we will try")
 			
-			for item in data['data']:
-				reference = Reference()
-				reference.from_object(item)
-				self.addReferenceToList(reference)
+			self.wipeView()
+			for item in d.references:
+				self.addReferenceToList(item)
+			return True
 		except Exception as e:
 			self.showInfo("Could not open file", "An error occured. The error was: %s" % e)
+			return False
 
 	def wipeView(self):
 		# Remove all items from list
@@ -193,11 +203,13 @@ class MyApplication(object):
 			f = open(filename, 'w')
 			arr = []
 			for x in range(0, self.store.iter_n_children(None)):
-				arr.append( self.store.get(self.store.iter_nth_child(None,x), 0)[0].reference.to_object() )
-			json.dump({
-				"version" : VERSION,
-				"data" : arr
-			}, f)
+				arr.append( self.store.get(self.store.iter_nth_child(None,x), 0)[0].reference )
+			# json.dump(, f)
+
+			d = Document()
+			d.references = arr
+			f.write( d.output() )
+
 			f.close()
 
 			# We are no longer dirty!

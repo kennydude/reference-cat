@@ -1,10 +1,14 @@
 # Web Backend
-import web, sys
+import web, sys, pystache, core
 
 urls = (
-	'/(.*)', 'hello'
+	'/', 'main',
+	'/jquery.min.js', 'jquery',
+	'/moment.min.js', 'moment'
 )
 app = web.application(urls, globals())
+templates = {}
+debug = True
 
 def endpoint(cb):
 	# this is a decorator which we use to keep security
@@ -17,12 +21,45 @@ def endpoint(cb):
 		return cb(*args)
 	return f
 
-class hello:
+def template(x, cntx, master=False):
+	# x = template name
+	# cntx = stuff you want to pass
+	# master = do not touch!!!!
+	if x in templates:
+		renderer = pystache.Renderer()
+		o = renderer.render( templates[x], cntx )
+		if master:
+			return o
+		else:
+			cntx['content'] = o
+			return template("layout", cntx, True)
+	else:
+		templates[ x ] = pystache.parse( unicode(open('referencecat/gui/web/%s.html' % x).read() ))
+		o = template( x, cntx, master )
+		if debug:
+			del templates[x]
+		return o
+
+class jquery:
 	@endpoint
-	def GET(self, name):
-		if not name: 
-			name = 'World'
-		return 'Hello, ' + name + '!'
+	def GET(self):
+		return open('referencecat/gui/web/jquery.min.js').read()
+
+class moment:
+	@endpoint
+	def GET(self):
+		return open('referencecat/gui/web/moment.min.js').read()
+
+class main:
+	@endpoint
+	def GET(self):
+		d = {}
+		for (key,value) in core.reference.SourceTypeStrings:
+			d[key] = {
+				"label" : value,
+				"fields" : core.reference.getFieldsBySourceType(key)
+			};
+		return template("start",{"fields":d})
 
 def launch():
 	sys.argv = []

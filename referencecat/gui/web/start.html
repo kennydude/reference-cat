@@ -1,0 +1,89 @@
+<div class="toolbar">
+	<a id="exportItem" class="right">
+		Export
+	</a>
+	<a id="newDoc">
+		New Document
+	</a>
+	<a id="openDoc">
+		Open Document
+	</a>
+	<a id="saveDoc">
+		Save Document
+	</a>
+</div>
+<div class="heading">
+	References
+</div>
+<div class="toolbar">
+	<a id="newItem">
+		Add new Item
+	</a>
+</div>
+<div class="list">
+
+</div>
+<div class="editBox">
+	<h2>Edit</h2>
+	<label for="type">Type:</label>
+	<select name="type" id="type"></select>
+	<div class="fields">
+	</div>
+	<div style="clear: both"></div>
+</div>
+<script type="text/javascript" src="/jquery.min.js"></script>
+<script type="text/javascript" src="/moment.min.js"></script>
+<script type="text/javascript">
+var fields = {{ fields }};
+
+function update_fields(){
+	$(".fields").html("");
+	$("<br/>").css("clear", "both").appendTo(".fields");
+
+	console.log($("#type").val());
+	for (var i = 0; i < fields[$("#type").val()]['fields'].length; i++) {
+		var box = fields[$("#type").val()]['fields'][i];
+		var ed = $("<input>").addClass("fl");
+		var container = $("<div>").addClass("fieldC");
+		
+		if(box['type'] == "PeopleList"){
+			ed = $("<div>").addClass("fl");
+
+			//$("<input>").appendTo(ed);
+
+			var e = $("<button>").text("Add").click(function(){
+				$("<input>").attr("placeholder","e.g: John Smith (we'll do the rest)").insertBefore(this);
+			}).appendTo(ed);
+			e.trigger("click");
+		} else if(box['type'] == "Year"){
+			ed.attr("type", "number").val( moment().year() ).on("keydown", function(e){
+				if( !((e.keyCode >= 96 && e.keyCode <= 105) || (e.keyCode >= 48 && e.keyCode <= 59) || e.keyCode == 8 ) ){
+					return false;
+				}
+			});
+		}
+
+		$("<label>").text( box['title'] ).appendTo(container);
+		ed.addClass("referenceEditField").appendTo(container);
+
+		container.appendTo(".fields");
+		$("<br/>").css("clear", "both").appendTo(".fields");
+	};
+}
+
+$(document).ready(function(){
+	for (var i = Object.keys(fields).length - 1; i >= 0; i--) {
+		console.log("option")
+		key = Object.keys(fields)[i];
+		$("<option>").attr("value", key).text(fields[key]['label']).appendTo("#type");
+	};
+
+	$("#type").on("change", update_fields);
+	$("#type").trigger("change");
+
+	$("#newItem").click(function(){
+		$(".editBox h2").text("New Item");
+
+	});	
+});
+</script>
