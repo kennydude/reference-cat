@@ -4,6 +4,7 @@
 import pystache, json, string
 from core.reference import Reference
 
+# TODO: Move
 VERSION = "0.2"
 
 class Document(object):
@@ -32,6 +33,7 @@ class Document(object):
 			"data" : x
 		})
 		d['references'] = r
+		d['version'] = VERSION
 		return pystache.render(self.getTemplate(), d)
 
 	def clear(self):

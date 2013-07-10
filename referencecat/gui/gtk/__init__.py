@@ -578,4 +578,11 @@ class MyApplication(object):
 		cell.set_property('markup', str(self.store.get_value(iter, 0)))
 
 def launch():
+	try:
+		import signal
+		signal.signal(signal.SIGINT, signal.SIG_DFL)
+	except Exception as ex:
+		print(">> ReferenceCat could not correctly set the Ctrl+C behaviour. Sorry :(")
+		print(">>> What happened was: %s" % ex)
+		prinT(">>> However, don't worry as this is not critical.")
 	MyApplication().open()

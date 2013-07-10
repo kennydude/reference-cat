@@ -25,6 +25,8 @@ It looks like this:
 
 * Export :(
 * Delete individual references (although the button appears correctly)
+* Any crazy person using ReferenceCat 0.1 will find the files don't open any more and will throw errors.
+* Crazy bugs with things
 
 ### Things I should change
 

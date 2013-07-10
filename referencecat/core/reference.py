@@ -231,14 +231,35 @@ class Reference(object):
 		self.publisher = obj['publisher']
 		self.date_accessed = obj['date_accessed']
 		self.url = obj['url']
-	def author_string(self):
-		## TODO: X, Y and Z
-		return ",".join(self.author)
+	def author_harvard(self, author):
+		# Turn an author into the correct Harvard rendering
+		parts = author.split(" ")
+		surname = parts.pop(-1)
+
+		initials = []
+		for part in parts:
+			if part[-1] != ".":
+				part += "."
+			initials.append(part[0] + part[-1])
+
+		return "%s, %s" % ( surname, " ".join(initials) )
+	def author_string(self, authors):
+		o = []
+		for author in authors:
+			o.append(self.author_harvard(author))
+
+		end = ''
+		if len(o) >= 2:
+			end = " " + o[-2] + " and " + o[-1]
+			del o[-2]
+			del o[-1]
+		return "%s%s" % ( ", ".join(o), end )
 	def to_html(self):
 		# Note: This is HTML4 because of Pango, but should render okay
+		# TODO: Make a lot better for missing bits out!
 		if self.type == SOURCE_TYPE.BOOK:
 			return "%s (%s) <i>%s</i> %s: %s" % (
-				self.author_string(),
+				self.author_string(self.author),
 				self.year,
 				self.title,
 				self.publication_place,
@@ -249,7 +270,7 @@ class Reference(object):
 			if self.issue_number != "":
 				volume += " (%s)" % self.issue_number
 			return "%s (%s) %s <i>%s</i> %s %s" % (
-				self.author_string(),
+				self.author_string(self.author),
 				self.year,
 				self.chapter_title,
 				self.title,
@@ -258,7 +279,7 @@ class Reference(object):
 			)
 		elif self.type == SOURCE_TYPE.WEBSITE:
 			return "%s (%s) <i>%s</i>. Available from: %s [Accessed %s]" % (
-				self.author_string(),
+				self.author_string(self.author),
 				self.year,
 				self.title,
 				self.url,
