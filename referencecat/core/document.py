@@ -16,9 +16,14 @@ class Document(object):
 	def getTemplate(self):
 		with open('referencecat/core/template.html', 'r') as f:
 			return f.read()
+	def getReferenceKey(self, r):
+		return r.author_string(r.author) + str(r.year)
 	def output(self):
 		# Return the output to be written to a file
 		d = {}
+
+		# Sort them alphabetically by Author
+		self.references = sorted( self.references, key=self.getReferenceKey )
 
 		x = []
 		r = []
