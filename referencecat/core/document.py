@@ -44,11 +44,12 @@ class Document(object):
 	def clear(self):
 		self.references = []
 
-	def input(self, content):
+	def input(self, data):
 		# Import content (str) into this document object
 
 		# This could be better, but we do not use any scripts inside of the content
-		data = content[ content.find('<script type="text/json">') : content.find("</script>") ]
+		if '<script type="text/json">' in data:
+			data = content[ content.find('<script type="text/json">') : content.find("</script>") ]
 		data = data[ data.find('{') : data.rfind('}')+1 ]
 
 		# Data

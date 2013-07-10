@@ -25,7 +25,6 @@ It looks like this:
 
 * Export :(
 * Delete individual references (although the button appears correctly)
-* Any crazy person using ReferenceCat 0.1 will find the files don't open any more and will throw errors.
 * Crazy bugs with things
 
 ### Things I should change
@@ -36,5 +35,5 @@ It looks like this:
 
 ### Things to do
 
-* HTML5 backend as a server (then, I get my own way. Just fire up localhost!)
+* HTML5 backend as a server (then, I get it working on Win/OSX. Just fire up localhost!)
 * Other backends if I can be bothered (but I use Linux, so meh HTML5 will do for everything else)
