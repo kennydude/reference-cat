@@ -1,5 +1,7 @@
 # Reference Cat
 
+![Logo](referencecat.png)
+
 Reference Cat is a magical tool written in Python
 (would have been html, but you can't write to a `<input type='file'/>`)
 designed to do referencing quickly
@@ -18,6 +20,13 @@ It looks like this:
 ![Main screen](screenshots/main.png)
 
 ![Edit Reference](screenshots/edit.png)
+
+## Icon credit
+
+Someone make me a lovely one please :)
+
+- http://openclipart.org/detail/23817/kitty-icon-by-pitr-23817
+- http://openclipart.org/detail/128647/open-book-by-kevie
 
 ## State of things
 

@@ -268,7 +268,7 @@
     <property name="window_position">center</property>
     <property name="default_width">440</property>
     <property name="default_height">250</property>
-    <property name="icon_name">applications-utilities</property>
+    <property name="icon">../../../referencecat.svg</property>
     <child>
       <object class="GtkBox" id="mainBox">
         <property name="visible">True</property>

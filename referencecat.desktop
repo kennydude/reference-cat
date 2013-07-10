@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Version=0.2
+Name=ReferenceCat
+Comment=Manages your references, so you can sleep all day
+Icon=dungeon
+Exec=python /opt/referencecat/referencecat
+Path=/opt/referencecat
+Categories=Office
