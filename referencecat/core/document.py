@@ -17,7 +17,9 @@ class Document(object):
 		with open('referencecat/core/template.html', 'r') as f:
 			return f.read()
 	def getReferenceKey(self, r):
-		return r.author_string(r.author) + str(r.year)
+		o = r.author_string(r.author) + str(r.year)
+		print o
+		return o
 	def output(self):
 		# Return the output to be written to a file
 		d = {}
@@ -49,7 +51,7 @@ class Document(object):
 
 		# This could be better, but we do not use any scripts inside of the content
 		if '<script type="text/json">' in data:
-			data = content[ content.find('<script type="text/json">') : content.find("</script>") ]
+			data = data[ data.find('<script type="text/json">') : data.find("</script>") ]
 		data = data[ data.find('{') : data.rfind('}')+1 ]
 
 		# Data

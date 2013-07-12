@@ -234,13 +234,16 @@ class Reference(object):
 	def author_harvard(self, author):
 		# Turn an author into the correct Harvard rendering
 		parts = author.split(" ")
-		surname = parts.pop(-1)
+		surname = parts.pop(-1).strip()
 
 		initials = []
 		for part in parts:
 			if part[-1] != ".":
 				part += "."
 			initials.append(part[0] + part[-1])
+
+		if len(initials) == 0:
+			return surname
 
 		return "%s, %s" % ( surname, " ".join(initials) )
 	def author_string(self, authors):
@@ -250,7 +253,9 @@ class Reference(object):
 
 		end = ''
 		if len(o) >= 2:
-			end = " " + o[-2] + " and " + o[-1]
+			end = o[-2] + " and " + o[-1]
+			if len(o) >= 3:
+				end = " " + end
 			del o[-2]
 			del o[-1]
 		return "%s%s" % ( ", ".join(o), end )

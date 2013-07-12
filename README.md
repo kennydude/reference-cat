@@ -23,10 +23,9 @@ It looks like this:
 
 ## Icon credit
 
-Someone make me a lovely one please :)
-
-- http://openclipart.org/detail/23817/kitty-icon-by-pitr-23817
-- http://openclipart.org/detail/128647/open-book-by-kevie
+* [Cat](http://thenounproject.com/noun/cat/#icon-No18061) designed by [Martin LEBRETON](http://thenounproject.com/Martin LEBRETON) from The Noun Project
+* Idea by [Sami L](https://plus.google.com/102979615354596428339)
+* Initial icon is accessories-dictionary.svg from the Elementary Desktop project
 
 ## State of things
 

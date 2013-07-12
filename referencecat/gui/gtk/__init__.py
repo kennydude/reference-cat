@@ -3,7 +3,7 @@
 # the only other file is a glade file
 # If someone wanted to tidy this up, then please do
 
-from gi.repository import Gtk, GObject, Gdk
+from gi.repository import Gtk, GObject, Gdk, Pango
 from core.reference import *
 from core.document import *
 import datetime, json, os.path
@@ -38,6 +38,8 @@ class MyApplication(object):
 		self.win.connect("delete-event", self.onExit)
 
 		cell = Gtk.CellRendererText(markup=0)
+		cell.set_property("wrap_mode", Pango.WrapMode.WORD)
+		cell.set_property("wrap_width", 20)
 		column = Gtk.TreeViewColumn("Reference", cell)
 		column.set_cell_data_func(cell, self.get_name)
 
