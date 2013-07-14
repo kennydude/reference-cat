@@ -1,2 +1,3 @@
 #!/bin/sh
-export PYTHONPATH=$PYTHONPATH:/opt/referencecat/lib
+export PYTHONPATH=$PYTHONPATH:/opt/referencecat:/opt/referencecat/lib
+python referencecat

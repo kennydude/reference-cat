@@ -1,0 +1,6 @@
+referencecat opt/referencecat
+referencecat.svg opt/referencecat
+README.md opt/referencecat
+referencecat.svg usr/share/icons
+referencecat.desktop usr/share/applications
+lib opt/referencecat

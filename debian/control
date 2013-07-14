@@ -1,0 +1,21 @@
+Source: referencecat
+Section: unknown
+Priority: extra
+Maintainer: Joe Simpson <headbangerkenny@googlemail.com>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.2
+Homepage: http://github.com/kennydude/reference-cat
+#Vcs-Git: git://git.debian.org/collab-maint/referencecat.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/referencecat.git;a=summary
+
+Package: referencecat
+Architecture: all
+Depends: ${misc:Depends}, python3 (>= 3.2.0)
+Description: Keeping track of your references so you can be a lazy cat
+ ReferenceCat is an application which helps you do referencing
+ because it's a boring and horrible task that shouldn't take so
+ long!
+ Other solutions take time to learn, and just don't work nicely
+ with people who are privacy concious and like native apps that
+ look nice.
+ Also students are on a budget!
