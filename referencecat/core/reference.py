@@ -14,7 +14,7 @@
 * date accessed
 * url
 '''
-import datetime
+import datetime, cgi
 
 # TODO: Make sure it works with python3.4
 def enum(**enums):
@@ -24,14 +24,16 @@ SOURCE_TYPE = enum(
 	BOOK = "book",
 	BOOK_CHAPTER = "chapter",
 	JORUNAL = "journal",
-	WEBSITE = "web"
+	WEBSITE = "web",
+	EMAIL = "email"
 )
 
 SourceTypeStrings = [
 	("book", "Whole Book"),
 	("chapter", "Book Chapter"),
 	("journal", "Journal Article"),
-	("web", "Website")
+	("web", "Website"),
+	("email", "Email")
 ]
 
 def getFieldsBySourceType(sourceType):
@@ -44,7 +46,30 @@ def getFieldsBySourceType(sourceType):
 
 	You should use this to populate UI
 	'''
-	if sourceType == SOURCE_TYPE.BOOK:
+	if sourceType == SOURCE_TYPE.EMAIL:
+		return [
+			{
+				"key" : "author",
+				"title" : "Author",
+				"type" : "PeopleList"
+			},
+			{
+				"key" : "year",
+				"title" : "Year",
+				"type" : "Year"
+			},
+			{
+				"key" : "date_accessed",
+				"title" : "Received Date",
+				"type" : "Date"
+			},
+			{
+				"key" : "title",
+				"title" : "Email address",
+				"type" : "Text"
+			}
+		]
+	elif sourceType == SOURCE_TYPE.BOOK:
 		return [
 			{
 				"key" : "author",
@@ -266,8 +291,8 @@ class Reference(object):
 			return "%s (%s) <i>%s</i> %s: %s" % (
 				self.author_string(self.author),
 				self.year,
-				self.title,
-				self.publication_place,
+				cgi.escape(self.title),
+				cgi.escape(self.publication_place),
 				self.publisher
 			)
 		elif self.type == SOURCE_TYPE.JORUNAL:
@@ -277,8 +302,8 @@ class Reference(object):
 			return "%s (%s) %s <i>%s</i> %s %s" % (
 				self.author_string(self.author),
 				self.year,
-				self.chapter_title,
-				self.title,
+				cgi.escape(self.chapter_title),
+				cgi.escape(self.title),
 				volume,
 				self.page_number
 			)
@@ -286,8 +311,15 @@ class Reference(object):
 			return "%s (%s) <i>%s</i>. Available from: %s [Accessed %s]" % (
 				self.author_string(self.author),
 				self.year,
-				self.title,
-				self.url,
+				cgi.escape(self.title),
+				cgi.escape(self.url),
 				self.date_accessed
+			)
+		elif self.type == SOURCE_TYPE.EMAIL:
+			return "%s %s, email %s, &lt;%s&gt;" % (
+				self.author_string(self.author),
+				self.year,
+				self.date_accessed,
+				cgi.escape(self.title)
 			)
 		return "<b>Unknown Reference Type</b>"

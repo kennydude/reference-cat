@@ -36,12 +36,15 @@ class MyApplication(object):
 
 		self.win = self.builder.get_object("mainWindow")
 		self.win.connect("delete-event", self.onExit)
+		self.win.connect("check-resize", self.winResize)
 
-		cell = Gtk.CellRendererText(markup=0)
-		cell.set_property("wrap_mode", Pango.WrapMode.WORD)
-		cell.set_property("wrap_width", 20)
-		column = Gtk.TreeViewColumn("Reference", cell)
-		column.set_cell_data_func(cell, self.get_name)
+		self.cell = Gtk.CellRendererText(markup=0)
+		self.cell.set_property("wrap_mode", Pango.WrapMode.WORD)
+		self.cell.set_property("wrap_width", 500)
+		self.cell.set_property("width", 500)
+		
+		column = Gtk.TreeViewColumn("Reference", self.cell)
+		column.set_cell_data_func(self.cell, self.get_name)
 
 		self.store = Gtk.ListStore(GReference.__gtype__)
 		
@@ -69,6 +72,11 @@ class MyApplication(object):
 
 		self.win.show_all()
 		Gtk.main()
+
+	def winResize(self, n=None):
+		w = 8
+		self.cell.set_property("wrap_width", self.win.get_allocation().width - w )
+		self.cell.set_property("width", self.win.get_allocation().width - w )
 
 	def exportReferences(self, a=None):
 		export = self.builder.get_object("exportWindow")

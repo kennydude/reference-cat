@@ -55,9 +55,7 @@ class Document(object):
 		data = data[ data.find('{') : data.rfind('}')+1 ]
 
 		# Data
-		print(data)
 		data = json.loads(data)
-		print(data)
 
 		# Now we run through it
 		self.version = data['version']
