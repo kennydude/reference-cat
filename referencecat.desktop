@@ -7,3 +7,4 @@ Icon=referencecat
 Exec=python /opt/referencecat/referencecat
 Path=/opt/referencecat
 Categories=Office
+MimeType=text/x-reference-cat

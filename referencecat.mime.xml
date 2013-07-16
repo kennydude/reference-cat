@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+	<mime-type type="text/x-reference-cat">
+		<comment xml:lang="en"></comment>
+		<magic priority="50">
+			<match type="string" value='<html class="referencecat"' offset="16"/>
+		</magic>
+		<glob pattern="*.refcat"/>
+	</mime-type>
+</mime-info>

@@ -6,6 +6,7 @@
 from gi.repository import Gtk, GObject, Gdk, Pango
 from core.reference import *
 from core.document import *
+from core import *
 import datetime, json, os.path
 
 # TODO: Remove
@@ -179,6 +180,7 @@ class MyApplication(object):
 				self.addReferenceToList(item)
 			return True
 		except Exception as e:
+			print_exception()
 			self.showInfo("Could not open file", "An error occured. The error was: %s" % e)
 			return False
 
@@ -380,6 +382,7 @@ class MyApplication(object):
 						if person.get_data("role") == "author":
 							if person.get_text().strip() != "": # Blank people are not people 
 								people.append(person.get_text())
+					people.reverse()
 					setattr(reference, data['key'], people)
 				elif data['type'] == "Date":
 					day = 0
