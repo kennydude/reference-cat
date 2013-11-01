@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ReferenceCat</title>
+
+	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+
+	<style>
+		li.unsaved a{
+			color: #FFF;
+			background: rgb(66, 184, 221);
+		}
+		li.unsaved a:hover{
+			background: rgb(66, 184, 200);
+		}
+		.hide, .item.editing .hideEditing{
+			display: none;
+		}
+		.turnEditingOn{
+			float: right;
+		}
+	</style>
+</head>
+<body>
+
+<div class="pure-menu pure-menu-open pure-menu-horizontal">
+	<a href="#" class="pure-menu-heading">ReferenceCat</a>
+
+	<ul>
+		<li><a href="#">New</a></li>
+		<li id="openFile"><a href="#">Open</a></li>
+		<li id="saveFile"><a href="#">Save</a></li>
+	</ul>
+</div>
+
+<div class="newitem">New Item</div>
+<div class="contents"></div>
+
+<div class="itemtemplate item hide editing">
+	<button class="pure-button editorSwitch hideEditing turnEditingOn">Edit</button>
+	<p class="reference">...</p>
+	<div class="pure-form pure-form-aligned editor">
+		<fieldset>
+			<div class="pure-control-group">
+				<label for="type">Type</label>
+				<select class="type" name="type" id="type">
+					<option>Select a type</option>
+				</select>
+			</div>
+
+			<div class="pure-controls bForm">
+				<button type="submit" class="pure-button pure-button-primary editorSwitch">Save</button>
+			</div>
+		</fieldset>
+	</div>
+</div>
+
+<script src="libs/jquery-1.9.1.js"></script>
+<script src="libs/handlebars-1.0.0.js"></script>
+<script src="libs/moment-with-langs.min.js"></script>
+<script src="libs/markdown.min.js"></script>
+
+<!-- Fix rendering issues -->
+<script src="libs/prefixfree.min.js"></script>
+
+<!-- ReferenceCat App -->
+<script src="data/harvard.js"></script>
+<script src="src/app.js"></script>
+
+</body>
+</html>

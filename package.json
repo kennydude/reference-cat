@@ -1,0 +1,10 @@
+{
+	"name": "referencecat",
+	"version": "0.0.1",
+	"main" : "app://referencecat/app.html",
+	"window" : {
+		"width" : 300,
+		"height" :  600,
+		"title" : "ReferenceCat"
+	}
+}
