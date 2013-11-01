@@ -3,53 +3,55 @@
 <head>
 	<title>ReferenceCat</title>
 
-	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
-
-	<style>
-		li.unsaved a{
-			color: #FFF;
-			background: rgb(66, 184, 221);
-		}
-		li.unsaved a:hover{
-			background: rgb(66, 184, 200);
-		}
-		.hide, .item.editing .hideEditing{
-			display: none;
-		}
-		.turnEditingOn{
-			float: right;
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="libs/glyphicons.css" />
+	<link rel="stylesheet" type="text/css" href="src/style.css" />
 </head>
 <body>
+<div class="chrome">
+	<div class="header">
+		<ul>
+			<li id="newFile" class="translateTitle" data-title="actions.new"><i class="glyphicons notes"></i></li>
+			<li id="openFile" class="translateTitle" data-title="actions.open"><i class="glyphicons disk_open"></i></li>
+			<li id="saveFile" class="translateTitle" data-title="actions.save"><i class="glyphicons disk_save"></i></li>
+		</ul>
+	</div>
 
-<div class="pure-menu pure-menu-open pure-menu-horizontal">
-	<a href="#" class="pure-menu-heading">ReferenceCat</a>
+	<div class="versionMismatch message hide">
+		<strong class="translateContent">please_note</strong><br/>
+		<p class="translateContent">messages.version_mismatch</p>
+	</div>
 
-	<ul>
-		<li><a href="#">New</a></li>
-		<li id="openFile"><a href="#">Open</a></li>
-		<li id="saveFile"><a href="#">Save</a></li>
-	</ul>
+	<div class="saveFailure message hide">
+		<strong class="translateContent">please_note</strong><br/>
+		<p class="translateContent">messages.save_failure</p>
+	</div>
+
+	<div class="newitem"><span class="glyphicons circle_plus"></span><span class="c translateContent">actions.newitem</span></div>
 </div>
 
-<div class="newitem">New Item</div>
-<div class="contents"></div>
+<ul class="contents"></ul>
 
 <div class="itemtemplate item hide editing">
-	<button class="pure-button editorSwitch hideEditing turnEditingOn">Edit</button>
-	<p class="reference">...</p>
-	<div class="pure-form pure-form-aligned editor">
+	<div class="itemrow">
+		<p class="reference">...</p>
+		<button class="editorSwitch hideEditing turnEditingOn translateTitle" data-title="actions.edit">
+			<i class="glyphicons pencil"></i>
+		</button>
+		<button class="deleteItem showEditing translateTitle" data-title="actions.delete">
+			<i class="glyphicons bin"></i>
+		</button>
+	</div>
+	<div class="editor">
 		<fieldset>
-			<div class="pure-control-group">
-				<label for="type">Type</label>
+			<div class="control-group">
+				<label for="type" class="translateContent">type</label>
 				<select class="type" name="type" id="type">
-					<option>Select a type</option>
+					<option class="translateContent">types.select_a_type</option>
 				</select>
 			</div>
 
-			<div class="pure-controls bForm">
-				<button type="submit" class="pure-button pure-button-primary editorSwitch">Save</button>
+			<div class="bForm">
+				<button type="submit" class="editorSwitch saveForm"><i class="glyphicons ok_2"></i> <span class="translateContent">actions.save_item</span></button>
 			</div>
 		</fieldset>
 	</div>
@@ -59,13 +61,20 @@
 <script src="libs/handlebars-1.0.0.js"></script>
 <script src="libs/moment-with-langs.min.js"></script>
 <script src="libs/markdown.min.js"></script>
+<script src="libs/i18next-1.7.1.min.js"></script>
 
 <!-- Fix rendering issues -->
 <script src="libs/prefixfree.min.js"></script>
 
 <!-- ReferenceCat App -->
 <script src="data/harvard.js"></script>
-<script src="src/app.js"></script>
+
+<script>
+	i18n.init(function(t) {
+		window.t = t;
+		$("<script/>").attr("src", "src/app.js").appendTo("body");
+	});
+</script>
 
 </body>
 </html>

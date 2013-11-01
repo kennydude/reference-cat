@@ -17,7 +17,14 @@ window.ReferenceData = {
 				"url",
 				"date_accessed"
 			],
-			"list_template" : "'{{title}}' ({{year}}) {{#if website_name}}_{{website_name}}_.{{/if}} Available at: {{url}} (Accessed: {{date_render date_accessed 'DD MMMM YYYY'}})"
+			"list_template" : "'{{title}}' ({{year}}) <i>{{website_name}}</i>. Available at: {{url}} (Accessed: {{date_render date_accessed 'DD MMMM YYYY'}})"
+		},
+		"web" : {
+			"fields" : [
+				"title",
+				"url",
+				"date_accessed"
+			]
 		}
 	},
 	"fields" : {

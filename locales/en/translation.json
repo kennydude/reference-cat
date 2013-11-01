@@ -1,0 +1,36 @@
+{
+	"fields" : {
+		"title" : "Title",
+		"year" : "Year",
+		"author" : "Author",
+		"publisher" : "Publisher",
+		"url" : "URL",
+		"date_accessed" : "Date Accessed",
+		"website_name" : "Website Name"
+	},
+	"types" : {
+		"select_a_type" : "Select a Type",
+		"book" : "Book",
+		"wiki" : "Wiki Entry"
+	},
+	"errors" : {
+		"load" : "Could not load file"
+	},
+	"actions" : {
+		"new" : "New File",
+		"open" : "Open File",
+		"save" : "Save File",
+		"newitem" : "New Item",
+		"edit" : "Edit Item",
+		"save_item" : "Save",
+		"delete" : "Delete Item"
+	},
+	"please_note" : "Please Note:",
+	"type" : "Type",
+	"messages" : {
+		"delete_item" : "Are you sure you wish to delete this item?",
+		"loose_changes" : "If you continue, your changes will be lost",
+		"save_failure" : "The file could not be saved for some reason. Please try again",
+		"version_mismatch" : "This file was edited in a different version of ReferenceCat to the version you are using. We have attempted to open it anyway, but some stuff may work properly"
+	}
+}

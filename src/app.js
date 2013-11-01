@@ -4,13 +4,15 @@
 
 var fs = require("fs");
 
+var current_version = 2;
+
 function setupItem(item){
 	// Setup the type field on the editor template
-	$(".type", item).each(function(){
+	var typeS = $(".type", item).each(function(){
 		var types = Object.keys(ReferenceData.types);
 		for(type in types){
 			type = types[type];
-			$("<option />").attr("val", type).html(type).appendTo(this);
+			$("<option />").attr("value", type).html(t("types." + type)).appendTo(this);
 		}
 	}).on('change', function(){
 		var master = $(this).closest('.item'),
@@ -18,7 +20,7 @@ function setupItem(item){
 		$(".editor_group", master).remove();
 
 		if(ReferenceData.types[$(this).val()] == undefined){
-			console.log("Non-proper item");
+			console.log("Non-proper item: " + $(this).val());
 			master.removeClass("proper");
 			return;
 		}
@@ -35,8 +37,8 @@ function setupItem(item){
 					render_reference(master);
 				};
 
-			var ed = $("<div/>").addClass('editor_group pure-control-group').insertBefore(bottom);
-			$("<label/>").text(fieldname).appendTo(ed);
+			var ed = $("<div/>").addClass('editor_group control-group').insertBefore(bottom);
+			$("<label/>").text(t("fields." + fieldname)).appendTo(ed);
 
 			switch(fdata['type']){
 				// Basically we switch based on data-type
@@ -74,8 +76,8 @@ function setupItem(item){
 					update_val(v);
 					break;
 				case "string[]":
-					var div = $("<div />").appendTo(ed).addClass("pure-form-message-inline"),
-						addRowD = $("<div />").html("Add new row").appendTo(div),
+					var div = $("<div />").appendTo(ed),
+						addRowD = $("<div />").html("Add new row").appendTo(div).addClass("inline"),
 						addRow = function(){
 							$("<input>").attr("type", "text")
 								.change(function(){
@@ -91,8 +93,18 @@ function setupItem(item){
 		});
 	});
 
+	if($(item).data("type")){
+		typeS.val($(item).data("type")).change();
+	}
+
 	$(".editorSwitch", item).click(function(){
 		$(".editor", $(this).closest(".item").toggleClass("editing")).toggleClass("hide");
+	});
+
+	$(".deleteItem", item).click(function(){
+		if(confirm(t("messages.delete_item"))){
+			$(this).closest("li").remove();
+		}
 	});
 }
 
@@ -102,23 +114,32 @@ function setupItem(item){
  */
 function render_reference(item){
 	// Build input
-	var data = ReferenceData.types[$(item).data('type')].fields,
-		context = {};
-	data.forEach(function(fieldname){
-		var fdata = ReferenceData.fields[fieldname];
-		switch(fdata['type']){
-			case "date":
-			case "year":
-			case "url":
-			case "string":
-			case "string[]":
-				context[fieldname] = $(item).data(fieldname);
-				break;
-		}
-	});
+	try{
+		var data = ReferenceData.types[$(item).data('type')].fields,
+			context = {};
+		data.forEach(function(fieldname){
+			var fdata = ReferenceData.fields[fieldname];
+			switch(fdata['type']){
+				case "date":
+				case "year":
+				case "url":
+				case "string":
+				case "string[]":
+					context[fieldname] = $(item).data(fieldname);
+					break;
+			}
+		});
 
-	// Just render it :P
-	$(".reference", item).html( markdown.toHTML(ReferenceData.types[$(item).data('type')].list_template(context)) );
+		// Just render it :P
+		$(".reference", item).html( ReferenceData.types[$(item).data('type')].list_template(context) );
+	} catch(e){}
+}
+
+function buildItem(){
+	var ix = $(".itemtemplate").clone().removeClass("hide itemtemplate"),
+		li = $("<li/>");
+	ix.appendTo(li);
+	return li.appendTo(".contents");
 }
 
 Handlebars.registerHelper('date_render', function(d, format) {
@@ -134,14 +155,14 @@ for(name in ReferenceData.types){
 
 
 $(".newitem").click(function(){
-	var item = $(".itemtemplate").clone().removeClass("hide itemtemplate").appendTo(".contents");
+	var item = buildItem();
 	setupItem(item);
 });
 
 var currentFilePath = undefined;
 
 function reallySaveFile(data){
-	$("#saveFile").html("Saving....");
+	$("#saveFile").html('<i class="glyphicons stopwatch"></i>');
 	$.get("src/file.html", function(templateData){
 		var template = Handlebars.compile(templateData);
 		var dataToSave = template({
@@ -151,16 +172,18 @@ function reallySaveFile(data){
 		console.log(currentFilePath);
 		fs.writeFile(currentFilePath, dataToSave, function(err){
 			if(!err){
-				$("#saveFile").removeClass("unsaved").html("Save");
+				$("#saveFile").removeClass("unsaved").html('<i class="glyphicons disk_save"></i>');
+				$(".versionMismatch, .saveFailure").addClass("hide"); // No longer mismatched
 			} else{
-				$("#saveFile").html("Save (!)");
+				$("#saveFile").html('<i class="glyphicons stopwatch"></i>');
+				$(".saveFailure").removeClass('hide');
 			}
 		});
 	});
 }
 
 $("#saveFile").click(function(){
-	var data = {"version" : 2, "data" : [], "format" : "harvard"};
+	var data = {"version" : current_version, "data" : [], "format" : "harvard"};
 	$(".contents .item.proper").each(function(){
 		var elem = {"type" : $(this).data("type")};
 
@@ -175,7 +198,7 @@ $("#saveFile").click(function(){
 	});
 
 	if(currentFilePath == undefined){
-		$("<input type=file nwsaveas='references.referencecat' accept='.referencecat' />").change(function(){
+		$("<input type=file nwsaveas='references.refcat' accept='.refcat' />").change(function(){
 			currentFilePath = $(this).val();
 			reallySaveFile(data);
 		}).click();
@@ -188,21 +211,76 @@ function newFile(cb){
 	if($("#saveFile").hasClass("unsaved")){
 		// Unsaved changes :O
 		// I really wish there was a better way
-		if(!confirm("If you continue, your changes will be lost")){
+		if(!confirm(t("messages.loose_changes"))){
 			return false;
 		}
 	}
 	// We need to clear the UI now
 	$("#saveFile").removeClass("unsaved");
 	$(".contents").html('');
+	$(".versionMismatch").addClass("hide");
 
 	cb();
 }
 
+$("#newFile").click(function(){
+	newFile(function(){});
+});
+
 $("#openFile").click(function(){
-	$("<input type=file accept='.referencecat' />").change(function(){
+	$("<input type=file accept='.refcat' />").change(function(){
+		var fname = $(this).val();
 		newFile(function(){
-			// todo
+			fs.readFile(fname, function(err, data){
+				if(err){
+					alert(t("errors.load"));
+				} else{
+					// Find JSON data
+					data = data.toString();
+
+					var tag = '<script type="text/json">',
+						i = data.indexOf(tag) + tag.length,
+						e = data.indexOf('</script>', i);
+					data = data.substring(i, e).trim();
+					data = JSON.parse(data);
+
+
+					// Now we have JSON, check the version
+					if(data.version != current_version){
+						$(".versionMismatch").removeClass("hide");
+					}
+
+					// Load in all of the references
+					data.data.forEach(function(ref){
+						var item = buildItem();
+						for(key in ref){
+							item.data(key, ref[key]);
+						}
+						setupItem(item);
+						render_reference(item);
+					});
+
+					// Finally set the current file path
+					currentFilePath = fname;
+				}
+			});
 		});
 	}).click();
 });
+
+// Translation stuff
+$(".translateTitle").each(function(){
+	$(this).attr("title", t($(this).data("title")));
+});
+$(".translateContent").each(function(){
+	$(this).html( t($(this).html()) );
+});
+
+// App UI
+$(window).on('resize', function(){
+	$(".contents").css("height", ($(window).height() - $(".chrome").height()) + "px");
+}).trigger('resize');
+
+setTimeout(function(){
+	$(window).trigger('resize');
+}, 2000);

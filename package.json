@@ -5,6 +5,10 @@
 	"window" : {
 		"width" : 300,
 		"height" :  600,
-		"title" : "ReferenceCat"
+		"title" : "ReferenceCat",
+		"max_width" : 600,
+		"min_width" : 200,
+		"min_height" : 400,
+		"toolbar" : false
 	}
 }
