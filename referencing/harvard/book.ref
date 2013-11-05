@@ -1,0 +1,13 @@
+author edited year title edition publication_place publisher page
+---
+Simple book
+---
+{{author}}
+{{#if edited}}(ed.){{/if}}
+({{year}})
+<i>{{title}}.</i>
+{{#if edition}}{{edition}}th edn.{{/if}}
+{{publication_place}}: {{publisher}}
+---
+{{author}}
+({{year}}{{#if page}}, p. {{page}}{{/if}})

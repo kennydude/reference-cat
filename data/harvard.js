@@ -3,10 +3,12 @@ window.ReferenceData = {
 	"types" : {
 		"book" : {
 			"fields" : [
-				"title",
-				"year",
 				"author",
-				"publisher"
+				"year",
+				"title",
+				"edition",
+				"place_publication",
+				"page"
 			]
 		},
 		"wiki" : {

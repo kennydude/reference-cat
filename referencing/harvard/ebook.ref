@@ -1,0 +1,11 @@
+author year title collection url accessed_date page
+---
+Ebook
+---
+{{author}}
+({{year}})
+<i>{{title}}{{#if collection}} {{collection}}{{/if}} [Online].</i>
+Available at: {{url}}
+(Accessed {{date_render date_accessed 'DD MMMM YYYY'}})
+---
+{{author}} ({{year}}{{#if year}}, pp. {{page}}{{/if}})
